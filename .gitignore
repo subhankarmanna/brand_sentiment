@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.venv311/
+venv/
+.env
+
+# Model + Data
+python/models/
+python/data_raw/
+python/data_processed/
+python/tokenized_playstore_ds/
+
+# Node
+frontend/node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
