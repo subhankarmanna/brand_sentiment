@@ -393,78 +393,216 @@
 
 
 
+#=======================================================================
 
 
-import warnings
-warnings.filterwarnings("ignore")
+# import warnings
+# warnings.filterwarnings("ignore")
 
+# import torch
+# import numpy as np
+# from pathlib import Path
+# from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+# # =====================================================
+# # CONFIG
+# # =====================================================
+# MODEL_MAP = {
+#     "roberta": "roberta-base",
+#     "distilroberta": "distilroberta-base",
+#     "bert": "bert-base-uncased",
+#     "albert": "albert-base-v2"
+# }
+
+# MODEL_BASE = Path(__file__).parent / "models"
+# MAX_LEN = 64
+# labels = ["Negative", "Neutral", "Positive"]
+
+# MODEL_CACHE = {}
+
+# # =====================================================
+# # UTIL
+# # =====================================================
+# def get_versions(model_name):
+#     folders = [
+#         d for d in MODEL_BASE.iterdir()
+#         if d.is_dir() and d.name.startswith(f"{model_name}_v")
+#     ]
+#     return sorted(folders, key=lambda x: int(x.name.split("_v")[1]))
+
+
+# def load_model(model_name, version_path):
+#     key = f"{model_name}_{version_path.name}"
+
+#     if key in MODEL_CACHE:
+#         return MODEL_CACHE[key]
+
+#     base_model = MODEL_MAP[model_name]
+
+#     tokenizer = AutoTokenizer.from_pretrained(base_model)
+#     model = AutoModelForSequenceClassification.from_pretrained(
+#         version_path / "final_model"
+#     )
+
+#     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#     model.to(device)
+#     model.eval()
+
+#     MODEL_CACHE[key] = (tokenizer, model, device)
+#     return tokenizer, model, device
+
+
+# # =====================================================
+# # SINGLE PREDICT (BACKEND FRIENDLY)
+# # =====================================================
+# def predict(text):
+
+#     # Default: Roberta latest
+#     model_name = "roberta"
+#     versions = get_versions(model_name)
+
+#     if not versions:
+#         raise Exception("No trained model found")
+
+#     latest = versions[-1]
+#     tokenizer, model, device = load_model(model_name, latest)
+
+#     inputs = tokenizer(
+#         text,
+#         return_tensors="pt",
+#         truncation=True,
+#         padding=True,
+#         max_length=MAX_LEN
+#     ).to(device)
+
+#     with torch.no_grad():
+#         outputs = model(**inputs)
+#         probs = torch.softmax(outputs.logits, dim=1).cpu().numpy()[0]
+
+#     pred = np.argmax(probs)
+#     return labels[pred], probs
+
+
+# # =====================================================
+# # COMPARE ALL MODELS
+# # =====================================================
+# def compare_all_models(text):
+
+#     results = []
+
+#     for model_name in MODEL_MAP.keys():
+#         versions = get_versions(model_name)
+#         if not versions:
+#             continue
+
+#         latest = versions[-1]
+#         tokenizer, model, device = load_model(model_name, latest)
+
+#         inputs = tokenizer(
+#             text,
+#             return_tensors="pt",
+#             truncation=True,
+#             padding=True,
+#             max_length=MAX_LEN
+#         ).to(device)
+
+#         with torch.no_grad():
+#             outputs = model(**inputs)
+#             probs = torch.softmax(outputs.logits, dim=1).cpu().numpy()[0]
+
+#         pred = np.argmax(probs)
+
+#         results.append({
+#             "model": model_name,
+#             "version": latest.name,
+#             "prediction": labels[pred],
+#             "confidence": float(max(probs)),
+#             "negative": float(probs[0]),
+#             "neutral": float(probs[1]),
+#             "positive": float(probs[2]),
+#         })
+
+#     return results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#=======================================================================
+
+import os
 import torch
 import numpy as np
-from pathlib import Path
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-# =====================================================
-# CONFIG
-# =====================================================
-MODEL_MAP = {
+from huggingface_hub import login
+
+HF_TOKEN = os.getenv("HF_TOKEN")
+
+if HF_TOKEN:
+    login(token=HF_TOKEN)
+
+
+MAX_LEN = 64
+labels = ["Negative", "Neutral", "Positive"]
+
+# 🔥 Your HF Model Repos
+MODEL_REPOS = {
+    "roberta": "subhankarmannayfy/brand-roberta",
+    "distilroberta": "subhankarmannayfy/brand-distilroberta",
+    "bert": "subhankarmannayfy/brand-bert",
+    "albert": "subhankarmannayfy/brand-albert"
+}
+
+# 🔥 Base Tokenizers (since you didn’t modify them)
+BASE_TOKENIZERS = {
     "roberta": "roberta-base",
     "distilroberta": "distilroberta-base",
     "bert": "bert-base-uncased",
     "albert": "albert-base-v2"
 }
 
-MODEL_BASE = Path(__file__).parent / "models"
-MAX_LEN = 64
-labels = ["Negative", "Neutral", "Positive"]
-
 MODEL_CACHE = {}
 
-# =====================================================
-# UTIL
-# =====================================================
-def get_versions(model_name):
-    folders = [
-        d for d in MODEL_BASE.iterdir()
-        if d.is_dir() and d.name.startswith(f"{model_name}_v")
-    ]
-    return sorted(folders, key=lambda x: int(x.name.split("_v")[1]))
 
 
-def load_model(model_name, version_path):
-    key = f"{model_name}_{version_path.name}"
 
-    if key in MODEL_CACHE:
-        return MODEL_CACHE[key]
+def load_model(model_name):
+    if model_name in MODEL_CACHE:
+        return MODEL_CACHE[model_name]
 
-    base_model = MODEL_MAP[model_name]
+    print(f"🔄 Loading {model_name} from HuggingFace...")
 
-    tokenizer = AutoTokenizer.from_pretrained(base_model)
+    tokenizer = AutoTokenizer.from_pretrained(BASE_TOKENIZERS[model_name])
+
     model = AutoModelForSequenceClassification.from_pretrained(
-        version_path / "final_model"
+        MODEL_REPOS[model_name],
+        token=HF_TOKEN
     )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     model.eval()
 
-    MODEL_CACHE[key] = (tokenizer, model, device)
+    MODEL_CACHE[model_name] = (tokenizer, model, device)
     return tokenizer, model, device
 
 
-# =====================================================
-# SINGLE PREDICT (BACKEND FRIENDLY)
-# =====================================================
-def predict(text):
-
-    # Default: Roberta latest
-    model_name = "roberta"
-    versions = get_versions(model_name)
-
-    if not versions:
-        raise Exception("No trained model found")
-
-    latest = versions[-1]
-    tokenizer, model, device = load_model(model_name, latest)
+def predict(text, model_name="roberta"):
+    tokenizer, model, device = load_model(model_name)
 
     inputs = tokenizer(
         text,
@@ -479,23 +617,14 @@ def predict(text):
         probs = torch.softmax(outputs.logits, dim=1).cpu().numpy()[0]
 
     pred = np.argmax(probs)
-    return labels[pred], probs
+    return labels[pred], probs.tolist()
 
 
-# =====================================================
-# COMPARE ALL MODELS
-# =====================================================
 def compare_all_models(text):
-
     results = []
 
-    for model_name in MODEL_MAP.keys():
-        versions = get_versions(model_name)
-        if not versions:
-            continue
-
-        latest = versions[-1]
-        tokenizer, model, device = load_model(model_name, latest)
+    for model_name in MODEL_REPOS.keys():
+        tokenizer, model, device = load_model(model_name)
 
         inputs = tokenizer(
             text,
@@ -513,7 +642,6 @@ def compare_all_models(text):
 
         results.append({
             "model": model_name,
-            "version": latest.name,
             "prediction": labels[pred],
             "confidence": float(max(probs)),
             "negative": float(probs[0]),
@@ -522,12 +650,3 @@ def compare_all_models(text):
         })
 
     return results
-
-
-
-
-
-
-
-
-
