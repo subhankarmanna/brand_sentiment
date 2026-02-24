@@ -3,12 +3,7 @@ import torch
 import numpy as np
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-from huggingface_hub import login
 
-HF_TOKEN = os.getenv("HF_TOKEN")
-
-if HF_TOKEN:
-    login(token=HF_TOKEN)
 
 
 MAX_LEN = 64
@@ -44,8 +39,7 @@ def load_model(model_name):
     tokenizer = AutoTokenizer.from_pretrained(BASE_TOKENIZERS[model_name])
 
     model = AutoModelForSequenceClassification.from_pretrained(
-        MODEL_REPOS[model_name],
-        token=HF_TOKEN
+        MODEL_REPOS[model_name]
     )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
