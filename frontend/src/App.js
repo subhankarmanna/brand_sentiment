@@ -297,7 +297,7 @@ function QueueLoader({query,P,TOTAL}){
     const t=setInterval(()=>setElapsed(e=>parseFloat(Math.min(e+0.05,TOTAL).toFixed(2))),50);
     return()=>clearInterval(t);
   },[elapsed,TOTAL]);
-  useEffect(()=>{setStep(Math.min(Math.floor((elapsed/TOTAL)*steps.length), steps.length-1));},[elapsed]);
+  useEffect(()=>{setStep(Math.min(Math.floor((elapsed/TOTAL)*steps.length), steps.length-1));},[elapsed, TOTAL, steps.length]);
   const pct=Math.min((elapsed/TOTAL)*100,100);
   const r=48, circ=2*Math.PI*r;
   const offset=circ*(1-pct/100);
