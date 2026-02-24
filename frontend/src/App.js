@@ -21,9 +21,11 @@ const DARK = {
 const MC_L = ["#00B894","#1D6EEB","#F59E0B","#E05260"];
 const MC_D = ["#34D399","#A78BFA","#FBBF24","#F87171"];
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 // ─── API ─────────────────────────────────────────────────────────
 const callAPI = async (path, body) => {
-  const r = await fetch(`http://127.0.0.1:8000${path}`, {
+  const r = await fetch(`${BASE_URL}${path}`, {
     method:"POST", headers:{"Content-Type":"application/json"},
     body: JSON.stringify(body),
   });
@@ -32,7 +34,7 @@ const callAPI = async (path, body) => {
 
 const pingServer = async () => {
   try {
-    const r = await fetch("http://127.0.0.1:8000/docs", { method:"GET", signal: AbortSignal.timeout(3000) });
+    const r = await fetch(`${BASE_URL}/docs`, { method:"GET", signal: AbortSignal.timeout(3000) });
     return r.ok || r.status < 500;
   } catch { return false; }
 };
@@ -598,7 +600,7 @@ export default function App(){
 
           <div style={{position:"fixed",top:14,right:20,display:"flex",gap:8,alignItems:"center",zIndex:10}}>
             <ServerStatus P={P}/>
-            <button className="sbtn" onClick={()=>window.open("http://127.0.0.1:8000/docs","_blank")}>
+            <button className="sbtn" onClick={()=>window.open(`${BASE_URL}/docs`,"_blank")}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><polyline points="14,2 14,8 20,8" stroke="currentColor" strokeWidth="2"/><line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
               API Docs
             </button>
@@ -665,7 +667,7 @@ export default function App(){
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M8 7l-4 5 4 5M16 7l4 5-4 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             {loadingB?"Running…":"Compare"}
           </button>
-          <button className="sbtn" onClick={()=>window.open("http://127.0.0.1:8000/docs","_blank")}>
+          <button className="sbtn" onClick={()=>window.open(`${BASE_URL}/docs`,"_blank")}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="2"/><polyline points="14,2 14,8 20,8" stroke="currentColor" strokeWidth="2"/></svg>
             API
           </button>
