@@ -22,7 +22,7 @@ const MC_L = ["#00B894","#1D6EEB","#F59E0B","#E05260"];
 const MC_D = ["#34D399","#A78BFA","#FBBF24","#F87171"];
 
 const BASE_URL = process.env.REACT_APP_API_URL;
-console.log("BASE_URL:", BASE_URL);
+//console.log("BASE_URL:", BASE_URL);
 
 // ─── API ─────────────────────────────────────────────────────────
 const callAPI = async (path, body) => {
