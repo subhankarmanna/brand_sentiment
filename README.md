@@ -1,6 +1,3 @@
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
-
-
 <div align="center">
 
 ```
@@ -48,22 +45,22 @@ Mood Lens runs **four sentiment models in parallel** — from classical ML to st
 ```
 Input Text
     │
-    ├──▶  [ Model 1 ]  RoBERTa Transformer     ──▶ Sentiment + Confidence
-    ├──▶  [ Model 2 ]  Classical ML (sklearn)  ──▶ Sentiment + Confidence
-    ├──▶  [ Model 3 ]  Classical ML (sklearn)  ──▶ Sentiment + Confidence
-    └──▶  [ Model 4 ]  Ensemble / Hybrid       ──▶ Sentiment + Confidence
+    ├──▶  [ RoBERTa      ]  subhankarmannayfy/brand-roberta        ──▶ Sentiment + Confidence
+    ├──▶  [ DistilRoBERTa]  subhankarmannayfy/brand-distilroberta  ──▶ Sentiment + Confidence
+    ├──▶  [ BERT         ]  subhankarmannayfy/brand-bert           ──▶ Sentiment + Confidence
+    └──▶  [ ALBERT       ]  subhankarmannayfy/brand-albert         ──▶ Sentiment + Confidence
                 │
                 ▼
          Aggregated Prediction
       [ Positive / Negative / Neutral ]
 ```
 
-| # | Model | Type | Strength |
-|---|-------|------|----------|
-| 🔵 **1** | **RoBERTa** | Transformer (Deep Learning) | Highest contextual accuracy |
-| 🟢 **2** | **Classical ML** | scikit-learn | Fast inference, lightweight |
-| 🟡 **3** | **Classical ML** | scikit-learn | Domain-specific training |
-| 🔴 **4** | **Ensemble** | Hybrid | Aggregated robustness |
+| # | Model | HuggingFace Repo | Type |
+|---|-------|-----------------|------|
+| 🔵 **1** | **RoBERTa** | [subhankarmannayfy/brand-roberta](https://huggingface.co/subhankarmannayfy/brand-roberta) | Transformer |
+| 🟢 **2** | **DistilRoBERTa** | [subhankarmannayfy/brand-distilroberta](https://huggingface.co/subhankarmannayfy/brand-distilroberta) | Distilled Transformer |
+| 🟡 **3** | **BERT** | [subhankarmannayfy/brand-bert](https://huggingface.co/subhankarmannayfy/brand-bert) | Transformer |
+| 🔴 **4** | **ALBERT** | [subhankarmannayfy/brand-albert](https://huggingface.co/subhankarmannayfy/brand-albert) | Lite Transformer |
 
 ---
 
@@ -85,9 +82,9 @@ Input Text
 │   POST /predict          GET /docs (Swagger UI)         │
 │   GET  /health           GET /openapi.json              │
 │                                                         │
-│   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────┐    │
-│   │ RoBERTa  │  │ Model 2  │  │ Model 3  │  │  M4  │    │
-│   └──────────┘  └──────────┘  └──────────┘  └──────┘    │
+│   ┌──────────┐  ┌─────────────┐  ┌──────┐  ┌───────┐    │
+│   │ RoBERTa  │  │DistilRoBERTa│  │ BERT │  │ ALBERT│    │
+│   └──────────┘  └─────────────┘  └──────┘  └───────┘    │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -114,10 +111,10 @@ curl -X POST https://subhankarmannayfy-sentiment-analysis.hf.space/predict \
 {
   "text": "Zomato delivery was super fast and food was amazing!",
   "predictions": {
-    "roberta":  { "label": "POSITIVE", "score": 0.97 },
-    "model_2":  { "label": "POSITIVE", "score": 0.91 },
-    "model_3":  { "label": "POSITIVE", "score": 0.88 },
-    "ensemble": { "label": "POSITIVE", "score": 0.93 }
+    "roberta":       { "label": "POSITIVE", "score": 0.97 },
+    "distilroberta": { "label": "POSITIVE", "score": 0.95 },
+    "bert":          { "label": "POSITIVE", "score": 0.91 },
+    "albert":        { "label": "POSITIVE", "score": 0.89 }
   },
   "final_sentiment": "POSITIVE",
   "confidence": 0.93
@@ -168,12 +165,13 @@ brand_monitoring/
 ```
 Frontend    │  React.js          →  UI & sentiment display
 Backend     │  FastAPI (Python)  →  REST API & model orchestration
-Transformer │  RoBERTa           →  Deep learning sentiment model
-ML Engine   │  scikit-learn      →  Classical classification models
-NLP         │  TF-IDF            →  Text vectorization
+Model 1     │  RoBERTa           →  brand-roberta (HuggingFace)
+Model 2     │  DistilRoBERTa     →  brand-distilroberta (HuggingFace)
+Model 3     │  BERT              →  brand-bert (HuggingFace)
+Model 4     │  ALBERT            →  brand-albert (HuggingFace)
 Data        │  pandas            →  Preprocessing & ETL
 Infra       │  Docker            →  Backend containerization
-Deploy      │  HuggingFace       →  API server hosting
+Deploy      │  HuggingFace       →  API server + model hosting
 Deploy      │  Vercel            →  Frontend hosting
 ```
 
