@@ -1,10 +1,5 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
-<style>
-  body, p, li, td, th, blockquote, h1, h2, h3, h4, h5, h6, span, div, a, code, pre {
-    font-family: 'JetBrains Mono', monospace !important;
-  }
-</style>
 
 <div align="center">
 
@@ -277,6 +272,6 @@ git push origin feature/my-feature
 
 **Mood Lens** — *See how the world feels about your brand*
 
-<p>Made with ❤️ by <a href="https://subhankarmannayfy-sentiment-analysis.hf.space">Subhankar Manna</a></p>
+<p>Made with ❤️ by <a href="https://subhankarmannayfy-sentiment-analysis.hf.space">Mood Lens</a></p>
 
 </div>
