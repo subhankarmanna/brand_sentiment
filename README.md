@@ -1,183 +1,282 @@
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
-# ⚡ Twitter/X Sentiment Analysis
+<style>
+  body, p, li, td, th, blockquote, h1, h2, h3, h4, h5, h6, span, div, a, code, pre {
+    font-family: 'JetBrains Mono', monospace !important;
+  }
+</style>
 
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="Twitter Blue Logo" width="100" height="100">
-  <h3>High-Performance Sentiment Extraction Engine</h3>
-  <p><i>Streamlined · Reproducible · Full-Stack · Dependency-Free</i></p>
+
+```
+███╗   ███╗ ██████╗  ██████╗ ██████╗     ██╗     ███████╗███╗   ██╗███████╗
+████╗ ████║██╔═══██╗██╔═══██╗██╔══██╗    ██║     ██╔════╝████╗  ██║██╔════╝
+██╔████╔██║██║   ██║██║   ██║██║  ██║    ██║     █████╗  ██╔██╗ ██║███████╗
+██║╚██╔╝██║██║   ██║██║   ██║██║  ██║    ██║     ██╔══╝  ██║╚██╗██║╚════██║
+██║ ╚═╝ ██║╚██████╔╝╚██████╔╝██████╔╝    ███████╗███████╗██║ ╚████║███████║
+╚═╝     ╚═╝ ╚═════╝  ╚═════╝ ╚═════╝     ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝
+```
+
+<h3>🔍 Brand Sentiment Intelligence Platform</h3>
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Vercel-black?style=for-the-badge)](https://brand-sentiment-silk.vercel.app/)
+[![API Server](https://img.shields.io/badge/🤗_API_Server-HuggingFace-yellow?style=for-the-badge)](https://subhankarmannayfy-sentiment-analysis.hf.space)
+[![API Docs](https://img.shields.io/badge/📖_API_Docs-Swagger-green?style=for-the-badge)](https://subhankarmannayfy-sentiment-analysis.hf.space/docs)
+[![License](https://img.shields.io/badge/License-GPL_v3.0-blue?style=for-the-badge)](LICENSE)
+
+<p><em>Multi-Model · Real-Time · Full-Stack · Zomato Brand Intelligence</em></p>
+
 </div>
 
 ---
 
-## 🚀 Introduction
+## ✦ What is Mood Lens?
 
-**Twitter/X Sentiment Analysis** is a full-stack framework designed to deliver **fast and reliable sentiment insights** from tweet datasets. It combines a **React frontend**, **Node.js backend**, and a **Python-based ML engine** to provide real-time sentiment classification.
-
-Whether you're conducting **academic research**, **competitive brand monitoring**, or building a **data-driven product**, this tool converts raw tweet text into **actionable sentiment signals**.
+> **Mood Lens** is a production-grade sentiment analysis platform purpose-built for **brand monitoring** — starting with **Zomato**. It doesn't rely on a single model. Instead, it runs **4 parallel sentiment engines** and aggregates their predictions to deliver richer, more accurate insights from customer reviews and social media text.
 
 ---
 
-## ✨ Key Features
+## ⚡ Quick Links
 
-- 🎯 **Tri-Class Sentiment Detection** → Predicts **Positive**, **Negative**, and **Neutral** sentiments.
-- 🧠 **Python ML Engine** → Lightweight, fast, and dependency-free.
-- 🌐 **Full-Stack Integration** → React UI + Express API + Python backend.
-- 🔒 **Privacy-First Design** → Works with custom CSV datasets (no Twitter API required).
-- 🔓 **Open Source** → Licensed under **GNU GPL v3.0**.
+| Resource | URL |
+|----------|-----|
+| 🌐 **Frontend App** | [brand-sentiment-silk.vercel.app](https://brand-sentiment-silk.vercel.app/) |
+| 🤗 **API Server** | [subhankarmannayfy-sentiment-analysis.hf.space](https://subhankarmannayfy-sentiment-analysis.hf.space) |
+| 📖 **API Docs (Swagger)** | [.hf.space/docs](https://subhankarmannayfy-sentiment-analysis.hf.space/docs) |
+
+---
+
+## 🧠 The 4-Model Engine
+
+Mood Lens runs **four sentiment models in parallel** — from classical ML to state-of-the-art transformers:
+
+```
+Input Text
+    │
+    ├──▶  [ Model 1 ]  RoBERTa Transformer     ──▶ Sentiment + Confidence
+    ├──▶  [ Model 2 ]  Classical ML (sklearn)  ──▶ Sentiment + Confidence
+    ├──▶  [ Model 3 ]  Classical ML (sklearn)  ──▶ Sentiment + Confidence
+    └──▶  [ Model 4 ]  Ensemble / Hybrid       ──▶ Sentiment + Confidence
+                │
+                ▼
+         Aggregated Prediction
+      [ Positive / Negative / Neutral ]
+```
+
+| # | Model | Type | Strength |
+|---|-------|------|----------|
+| 🔵 **1** | **RoBERTa** | Transformer (Deep Learning) | Highest contextual accuracy |
+| 🟢 **2** | **Classical ML** | scikit-learn | Fast inference, lightweight |
+| 🟡 **3** | **Classical ML** | scikit-learn | Domain-specific training |
+| 🔴 **4** | **Ensemble** | Hybrid | Aggregated robustness |
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                     USER BROWSER                        │
+│              brand-sentiment-silk.vercel.app            │
+│                   [ React Frontend ]                    │
+└────────────────────────┬────────────────────────────────┘
+                         │  HTTP Request
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│               HUGGING FACE SPACES                       │
+│     subhankarmannayfy-sentiment-analysis.hf.space       │
+│                  [ FastAPI Server ]                     │
+│                                                         │
+│   POST /predict          GET /docs (Swagger UI)         │
+│   GET  /health           GET /openapi.json              │
+│                                                         │
+│   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────┐    │
+│   │ RoBERTa  │  │ Model 2  │  │ Model 3  │  │  M4  │    │
+│   └──────────┘  └──────────┘  └──────────┘  └──────┘    │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔌 API Reference
+
+**Base URL:** `https://subhankarmannayfy-sentiment-analysis.hf.space`
+
+**Interactive Docs:** [`/docs`](https://subhankarmannayfy-sentiment-analysis.hf.space/docs)
+
+### `POST /predict`
+
+Analyze sentiment of input text using all 4 models.
+
+```bash
+curl -X POST https://subhankarmannayfy-sentiment-analysis.hf.space/predict \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Zomato delivery was super fast and food was amazing!"}'
+```
+
+**Response:**
+```json
+{
+  "text": "Zomato delivery was super fast and food was amazing!",
+  "predictions": {
+    "roberta":  { "label": "POSITIVE", "score": 0.97 },
+    "model_2":  { "label": "POSITIVE", "score": 0.91 },
+    "model_3":  { "label": "POSITIVE", "score": 0.88 },
+    "ensemble": { "label": "POSITIVE", "score": 0.93 }
+  },
+  "final_sentiment": "POSITIVE",
+  "confidence": 0.93
+}
+```
+
+### `GET /health`
+
+Check API server status.
+
+```bash
+curl https://subhankarmannayfy-sentiment-analysis.hf.space/health
+```
 
 ---
 
 ## 📂 Project Structure
 
-```plaintext
-brand_monitoring/
-├── frontend/                            # React-based UI
-│   ├── src/
-│   │   └── components/                  # Input form, sentiment display
-│   ├── public/
-│   └── package.json                     # Frontend dependencies
-│
-├── backend/                             # Node.js + Express server
-│   ├── index.js                         # API entry point
-│   └── routes/
-│       └── sentimentRoute.js            # Receives input, invokes Python script
-│
-├── python/                              # Sentiment Analysis Engine
-│   ├── Data/
-│   │   └── training.1600000.processed.csv
-│   ├── models/
-│   │   └── v1/                          # Serialized ML models (.pkl)
-│   ├── analyzer.py                      # Real-time prediction logic
-│   ├── Data_set_Scrap.py                # ETL: Scraping & Cleaning
-│   ├── date_vectorize.py                # TF-IDF Vectorization
-│   ├── pkl_viewer.py                    # Model diagnostics
-│   └── Train_Model.py                   # Training & persistence
-└── .vscode/                             # IDE configuration
 ```
-
----
-
-## 🔄 Data Flow
-
-1. **Frontend (React)**  
-   - User enters tweet text via input form  
-   - Form triggers API call to backend
-
-2. **Backend (Node.js + Express)**  
-   - Receives input via REST endpoint  
-   - Spawns Python process (`analyzer.py`) using `child_process` or `python-shell`  
-   - Sends input to Python script and receives sentiment output
-
-3. **Python Engine**  
-   - `analyzer.py` loads trained model  
-   - Vectorizes input and predicts sentiment  
-   - Returns result to backend
-
-4. **Frontend**  
-   - Displays sentiment label (Positive / Negative / Neutral) to user
+brand_monitoring/
+│
+├── 🖥️  backend/                         ← FastAPI Server (HuggingFace Spaces)
+│   ├── app.py                           # API entry point & route definitions
+│   ├── roberta_predict.py               # RoBERTa transformer inference engine
+│   ├── requirements.txt                 # Python dependencies
+│   └── Dockerfile                       # Container configuration
+│
+├── 🎨  frontend/                        ← React UI (Vercel)
+│   ├── public/
+│   │   ├── index.html
+│   │   └── manifest.json
+│   └── src/
+│       ├── App.js                       # Root component
+│       ├── App.css
+│       ├── index.js
+│       └── index.css
+│
+└── 🔬  python/                          ← ML Training Pipeline
+    ├── data_raw/                        # Original raw datasets
+    ├── data_processed/                  # Cleaned & vectorized data
+    └── models/                          # Serialized models (.pkl / .pt)
+```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer           | Technology       | Purpose                              |
-|----------------|------------------|--------------------------------------|
-| **Frontend**    | React            | UI for input and result display      |
-| **Backend**     | Node.js + Express| API routing and Python bridge        |
-| **ML Engine**   | Python 3.x       | Sentiment analysis and prediction    |
-| **Data**        | pandas           | Data manipulation                    |
-| **ML**          | scikit-learn     | Classification algorithms            |
-| **NLP**         | TfidfVectorizer  | Text vectorization                   |
-| **Persistence** | joblib           | Model serialization                  |
-
----
-
-## ⚙️ Setup Instructions
-
-### 1️⃣ Install Python Dependencies
-
-```bash
-pip install pandas scikit-learn joblib
 ```
-
-### 2️⃣ Install Node.js Dependencies
-
-```bash
-cd backend
-npm install
-```
-
-### 3️⃣ Install React Frontend Dependencies
-
-```bash
-cd frontend
-npm install
+Frontend    │  React.js          →  UI & sentiment display
+Backend     │  FastAPI (Python)  →  REST API & model orchestration
+Transformer │  RoBERTa           →  Deep learning sentiment model
+ML Engine   │  scikit-learn      →  Classical classification models
+NLP         │  TF-IDF            →  Text vectorization
+Data        │  pandas            →  Preprocessing & ETL
+Infra       │  Docker            →  Backend containerization
+Deploy      │  HuggingFace       →  API server hosting
+Deploy      │  Vercel            →  Frontend hosting
 ```
 
 ---
 
-## 🚦 Workflow Pipeline
+## ⚙️ Local Development
 
-### 🧪 Model Training (Python)
-
-```bash
-python Data_set_Scrap.py       # Scrape & clean data
-python date_vectorize.py       # TF-IDF vectorization
-python Train_Model.py          # Train and save model
-```
-
-### 🔍 Inference & Diagnostics
+### 1. Clone the Repository
 
 ```bash
-python analyzer.py             # Real-time sentiment prediction
-python pkl_viewer.py           # Model inspection
+git clone <your-repo-url>
+cd brand_monitoring
 ```
 
-### 🌐 Full-Stack Execution
-
-1. Start backend server:
+### 2. Backend (FastAPI)
 
 ```bash
 cd backend
-node index.js
+pip install -r requirements.txt
+uvicorn app:app --reload
+# → Server: http://localhost:8000
+# → Docs:   http://localhost:8000/docs
 ```
 
-2. Start frontend:
+Or with Docker:
+
+```bash
+cd backend
+docker build -t mood-lens-api .
+docker run -p 8000:8000 mood-lens-api
+```
+
+### 3. Frontend (React)
 
 ```bash
 cd frontend
+npm install
 npm start
+# → App: http://localhost:3000
+```
+
+> ⚠️ For local dev, update the API base URL in your React app to `http://localhost:8000` instead of the HuggingFace Space URL.
+
+---
+
+## 🧪 ML Pipeline (Training)
+
+```bash
+cd python
+
+# Activate virtual environment
+source .venv/bin/activate       # Linux/macOS
+.venv\Scripts\activate          # Windows
+
+# Run training pipeline
+python preprocess.py            # Clean & process raw data
+python vectorize.py             # TF-IDF vectorization
+python train.py                 # Train & save models → /models
 ```
 
 ---
 
-## 📜 License & Data Policy
+## 🚀 Deployment
 
-- Licensed under **GNU GPL v3.0** → Free to use, modify, and distribute.
-- Uses **pre-cleaned datasets** → No raw Twitter API data, compliant with X/Twitter’s developer policy.
-- Logo image licensed under **Creative Commons Attribution-Share Alike 4.0 International**.
+| Layer | Platform | URL |
+|-------|----------|-----|
+| **Frontend** | Vercel | [brand-sentiment-silk.vercel.app](https://brand-sentiment-silk.vercel.app/) |
+| **API Backend** | HuggingFace Spaces (Docker) | [subhankarmannayfy-sentiment-analysis.hf.space](https://subhankarmannayfy-sentiment-analysis.hf.space) |
+| **API Docs** | Swagger UI | [.hf.space/docs](https://subhankarmannayfy-sentiment-analysis.hf.space/docs) |
+
+---
+
+## 📜 License
+
+Licensed under **GNU GPL v3.0** — Free to use, modify, and distribute with attribution.
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions from developers, researchers, and enthusiasts!
+```bash
+# 1. Fork the repo
+# 2. Create your branch
+git checkout -b feature/my-feature
 
-1. Fork the repository  
-2. Create your feature branch → `git checkout -b feature/AmazingFeature`  
-3. Commit your changes → `git commit -m 'Add AmazingFeature'`  
-4. Push to the branch → `git push origin feature/AmazingFeature`  
-5. Open a Pull Request
+# 3. Commit changes
+git commit -m "feat: add my feature"
 
----
-
-## 📬 Contact
-
-For **enterprise inquiries**, **research collaboration**, or **technical support**:
-
-- Open a GitHub Issue  
-- Contact the maintainer directly via email or LinkedIn  
+# 4. Push and open a PR
+git push origin feature/my-feature
+```
 
 ---
 
-Let me know if you'd like me to help write the backend API code or React component next!
+<div align="center">
+
+**Mood Lens** — *See how the world feels about your brand*
+
+<p>Made with ❤️ by <a href="https://subhankarmannayfy-sentiment-analysis.hf.space">Subhankar Manna</a></p>
+
+</div>
